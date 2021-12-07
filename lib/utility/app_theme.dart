@@ -19,4 +19,6 @@ class AppTheme {
       900: Color(0xFF5855D5),
     },
   );
+
+  static Color loaderColor = const Color(0xff44CCFC);
 }
