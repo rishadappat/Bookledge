@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:bookledge/models/books_response_model/get_books_response.dart';
+import 'package:bookledge/utility/app_theme.dart';
 import 'package:bookledge/utility/constants.dart';
 import 'package:bookledge/views/pdf_viewer/pdf_viewer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -11,7 +12,7 @@ class FrontLayer {
     return Container(
       child: getSizedBox(response, context),
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-      color: const Color(0xff28293B),
+      color: AppTheme.bgColor,
     );
   }
 
@@ -44,7 +45,7 @@ class FrontLayer {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(radius),
           ),
-          elevation: 5,
+          elevation: 15,
           child: Container(
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
               child: Stack(children: <Widget>[
@@ -82,7 +83,7 @@ class FrontLayer {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                          color: const Color(0xFF5855D5),
+                          color: AppTheme.navy,
                           borderRadius: BorderRadius.only(
                               bottomRight: radius, bottomLeft: radius)),
                       padding: const EdgeInsets.fromLTRB(10, 12, 10, 12),
