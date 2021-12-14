@@ -1,10 +1,10 @@
-import 'dart:ui';
-
 import 'package:bookledge/models/books_response_model/get_books_response.dart';
 import 'package:bookledge/utility/app_theme.dart';
 import 'package:bookledge/utility/constants.dart';
+import 'package:bookledge/utility/utility.dart';
 import 'package:bookledge/views/pdf_viewer/pdf_viewer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class FrontLayer {
@@ -17,15 +17,19 @@ class FrontLayer {
   }
 
   var radius = const Radius.circular(Constants.gridRadius);
+  var columnCount = 2;
 
   Widget getSizedBox(GetBooksResponse? response, BuildContext context) {
+    if (Utility().getDeviceType() == DeviceType.Tablet) {
+      columnCount = 4;
+    }
     return SizedBox.expand(
       child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: GridView.count(
             childAspectRatio: 0.75,
             physics: const BouncingScrollPhysics(),
-            crossAxisCount: 2,
+            crossAxisCount: columnCount,
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
             children:
@@ -42,6 +46,7 @@ class FrontLayer {
     return GestureDetector(
         onTap: () => itemClicked(textbookData, context),
         child: Card(
+          shadowColor: AppTheme.primaryColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(radius),
           ),
@@ -83,7 +88,7 @@ class FrontLayer {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                          color: AppTheme.navy,
+                          color: AppTheme.accentColor,
                           borderRadius: BorderRadius.only(
                               bottomRight: radius, bottomLeft: radius)),
                       padding: const EdgeInsets.fromLTRB(10, 12, 10, 12),
@@ -107,14 +112,11 @@ class FrontLayer {
   }
 
   void itemClicked(TextbookDatum? textbookData, BuildContext context) async {
-    String url = Constants.fileBaseUrl + textbookData!.chapterPdfUrl;
-    print(url);
     Navigator.push(
         context,
-        MaterialPageRoute<dynamic>(
+        CupertinoPageRoute<dynamic>(
           builder: (_) => PDFViewerCachedFromUrl(
-            url: url,
-            subName: textbookData.chapterName,
+            textbookData: textbookData!,
           ),
         ));
   }

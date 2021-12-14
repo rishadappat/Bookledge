@@ -5,6 +5,7 @@ import 'package:bookledge/views/about/about.dart';
 import 'package:bookledge/views/main/back_layer_view.dart';
 import 'package:bookledge/views/main/front_layer_view.dart';
 import 'package:bookledge/webservice/api_response.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:backdrop/backdrop.dart';
 
@@ -70,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 })
           ],
         ),
-        backLayer: BackLayer().getView(),
+        backLayer: BackLayer(context: context).getView(),
         frontLayer: RefreshIndicator(
           onRefresh: () => getBooks(),
           child: StreamBuilder<ApiResponse<GetBooksResponse>>(
@@ -94,7 +95,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         frontLayerScrim: Colors.black.withOpacity(0.6),
-        frontLayerBorderRadius: const BorderRadius.all(Radius.circular(30.0)),
+        frontLayerBorderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(30.0), topRight: Radius.circular(30.0)),
         stickyFrontLayer: true);
   }
 
@@ -105,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void aboutButtonClicked() {
     Navigator.push(
         context,
-        MaterialPageRoute<dynamic>(
+        CupertinoPageRoute<dynamic>(
           builder: (_) => const AboutScreen(),
         ));
   }

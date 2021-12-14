@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   static ThemeData theme = ThemeData(
-      primarySwatch: navy, scaffoldBackgroundColor: const Color(0xff28293B));
+      primarySwatch: primaryColor,
+      scaffoldBackgroundColor: const Color(0xff28293B));
 
-  static MaterialColor navy = MaterialColor(
+  static MaterialColor primaryColor = MaterialColor(
     0xFF5855D5,
     <int, Color>{
       50: accentColor,
