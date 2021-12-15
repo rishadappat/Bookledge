@@ -71,7 +71,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 })
           ],
         ),
-        backLayer: BackLayer(context: context).getView(),
+        backLayer: LayoutBuilder(
+            builder: (context, constraints) => BackLayer(
+                context: context,
+                callback: (medium, std) => {
+                      selectedMedium = medium,
+                      selectedGrade = std,
+                      getBooks(),
+                      Backdrop.of(context).concealBackLayer()
+                    })),
         frontLayer: RefreshIndicator(
           onRefresh: () => getBooks(),
           child: StreamBuilder<ApiResponse<GetBooksResponse>>(

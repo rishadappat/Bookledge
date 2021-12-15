@@ -1,9 +1,28 @@
+import 'package:bookledge/models/lookup_model/lookup.dart';
 import 'package:bookledge/utility/app_theme.dart';
 import 'package:flutter/material.dart';
 
-class BackLayer {
-  const BackLayer({required this.context}) : super();
+class BackLayer extends StatefulWidget {
+  const BackLayer({Key? key, required this.context, required this.callback})
+      : super(key: key);
   final BuildContext context;
+  final Function(int, int) callback;
+
+  @override
+  State<BackLayer> createState() => _BackLayerState();
+}
+
+class _BackLayerState extends State<BackLayer> {
+  Lookup? selectedMedium;
+  Lookup? selectedStd;
+
+  var mediumTxt = TextEditingController();
+  var stdTxt = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return getView();
+  }
+
   Widget getView() {
     return SizedBox(
         height: 300.0,
@@ -32,6 +51,7 @@ class BackLayer {
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   alignment: Alignment.center,
                   child: TextField(
+                    controller: mediumTxt,
                     readOnly: true,
                     textAlignVertical: TextAlignVertical.center,
                     style: const TextStyle(
@@ -44,7 +64,7 @@ class BackLayer {
                       hintText: "Select Medium",
                       border: InputBorder.none,
                     ),
-                    onTap: () => mediumSelected(),
+                    onTap: () => mediumClicked(),
                   ),
                 ),
                 Container(
@@ -55,6 +75,7 @@ class BackLayer {
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   alignment: Alignment.center,
                   child: TextField(
+                    controller: stdTxt,
                     readOnly: true,
                     textAlignVertical: TextAlignVertical.center,
                     style: const TextStyle(
@@ -67,7 +88,38 @@ class BackLayer {
                       hintText: "Select Class",
                       border: InputBorder.none,
                     ),
-                    onTap: () => classSelected(),
+                    onTap: () => classClicked(),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: 10, right: 10, top: 40),
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            AppTheme.buttonColor),
+                        minimumSize: MaterialStateProperty.all<Size>(
+                            const Size(200, 50)),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(25.0)))),
+                    onPressed: () {
+                      if (selectedMedium != null && selectedStd != null) {
+                        widget.callback(
+                            selectedMedium?.id ?? -1, selectedStd?.id ?? -1);
+                      }
+                    },
+                    child: const Text(
+                      'Submit',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.white),
+                    ),
                   ),
                 )
               ],
@@ -76,19 +128,24 @@ class BackLayer {
         ])));
   }
 
-  void mediumSelected() {
+  void mediumClicked() {
     showModalBottomSheet(
         isScrollControlled: true,
-        context: context,
+        context: widget.context,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0),
         ),
         builder: (context) {
-          return Column(
+          return SafeArea(
+              child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
+              Icon(
+                Icons.remove,
+                color: Colors.grey[600],
+              ),
               Container(
-                margin: const EdgeInsets.only(top: 20),
+                margin: const EdgeInsets.all(10),
                 child: const Text("Medium",
                     style: TextStyle(
                       color: Colors.black,
@@ -104,6 +161,11 @@ class BackLayer {
                 title: const Text('Malayalam',
                     style: TextStyle(color: Colors.black)),
                 onTap: () {
+                  setState(() {
+                    selectedMedium = Lookup(
+                        name: 'Malayalam', id: 1, logo: "lib/assets/mal.png");
+                    mediumTxt.text = selectedMedium?.name ?? "";
+                  });
                   Navigator.pop(context);
                 },
               ),
@@ -115,6 +177,11 @@ class BackLayer {
                 title: const Text('English',
                     style: TextStyle(color: Colors.black)),
                 onTap: () {
+                  setState(() {
+                    selectedMedium = Lookup(
+                        name: 'English', id: 2, logo: "lib/assets/en.png");
+                    mediumTxt.text = selectedMedium?.name ?? "";
+                  });
                   Navigator.pop(context);
                 },
               ),
@@ -126,6 +193,11 @@ class BackLayer {
                 title:
                     const Text('Tamil', style: TextStyle(color: Colors.black)),
                 onTap: () {
+                  setState(() {
+                    selectedMedium = Lookup(
+                        name: 'Tamil', id: 3, logo: "lib/assets/tam.png");
+                    mediumTxt.text = selectedMedium?.name ?? "";
+                  });
                   Navigator.pop(context);
                 },
               ),
@@ -137,156 +209,16 @@ class BackLayer {
                 title: const Text('Kannada',
                     style: TextStyle(color: Colors.black)),
                 onTap: () {
+                  setState(() {
+                    selectedMedium = Lookup(
+                        name: 'Kannada', id: 4, logo: "lib/assets/kan.png");
+                    mediumTxt.text = selectedMedium?.name ?? "";
+                  });
                   Navigator.pop(context);
                 },
               ),
             ],
-          );
-        });
-  }
-
-  void classSelected() {
-    showModalBottomSheet(
-        isScrollControlled: true,
-        context: context,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        builder: (context) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Container(
-                margin: const EdgeInsets.only(top: 20),
-                child: const Text("Standard",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    )),
-              ),
-              ListTile(
-                leading: getNumberDigitIcon(1),
-                title: const Text('Standard 1',
-                    style: TextStyle(
-                      color: Colors.black,
-                    )),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: getNumberDigitIcon(2),
-                title: const Text('Standard 2',
-                    style: TextStyle(
-                      color: Colors.black,
-                    )),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: getNumberDigitIcon(3),
-                title: const Text('Standard 3',
-                    style: TextStyle(
-                      color: Colors.black,
-                    )),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: getNumberDigitIcon(4),
-                title: const Text('Standard 4',
-                    style: TextStyle(
-                      color: Colors.black,
-                    )),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: getNumberDigitIcon(5),
-                title: const Text('Standard 5',
-                    style: TextStyle(
-                      color: Colors.black,
-                    )),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: getNumberDigitIcon(6),
-                title: const Text('Standard 6',
-                    style: TextStyle(
-                      color: Colors.black,
-                    )),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: getNumberDigitIcon(7),
-                title: const Text('Standard 7',
-                    style: TextStyle(
-                      color: Colors.black,
-                    )),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: getNumberDigitIcon(8),
-                title: const Text('Standard 8',
-                    style: TextStyle(
-                      color: Colors.black,
-                    )),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: getNumberDigitIcon(9),
-                title: const Text('Standard 9',
-                    style: TextStyle(
-                      color: Colors.black,
-                    )),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: getNumberDigitIcon(10),
-                title: const Text('Standard 10',
-                    style: TextStyle(
-                      color: Colors.black,
-                    )),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: getNumberDigitIcon(11),
-                title: const Text('Standard 11',
-                    style: TextStyle(
-                      color: Colors.black,
-                    )),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: getNumberDigitIcon(12),
-                title: const Text('Standard 12',
-                    style: TextStyle(
-                      color: Colors.black,
-                    )),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          );
+          ));
         });
   }
 
@@ -307,29 +239,61 @@ class BackLayer {
     );
   }
 
-  void showBottomSheetList() {
+  void classClicked() {
     showModalBottomSheet(
+      context: widget.context,
       isScrollControlled: true,
-      context: context,
+      isDismissible: true,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-      ),
-      builder: (context) => FractionallySizedBox(
-          heightFactor: 0.8,
-          child: ListView.builder(
-            itemCount: 4,
-            itemBuilder: (context, index) => ListTile(
-              leading: ImageIcon(
-                const AssetImage("lib/assets/mal.png"),
-                color: AppTheme.accentColor,
-              ),
-              title: const Text('Malayalam',
-                  style: TextStyle(color: Colors.black)),
-              onTap: () {
-                Navigator.pop(context);
-              },
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
+      builder: (context) => DraggableScrollableSheet(
+        initialChildSize: 0.5,
+        minChildSize: 0.2,
+        maxChildSize: 0.8,
+        expand: false,
+        builder: (_, controller) => Column(
+          children: [
+            Icon(
+              Icons.remove,
+              color: Colors.grey[600],
             ),
-          )),
+            Container(
+              margin: const EdgeInsets.all(10),
+              child: const Text("Standard",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  )),
+            ),
+            Expanded(
+              child: ListView.builder(
+                controller: controller,
+                itemCount: 12,
+                itemBuilder: (_, index) {
+                  return ListTile(
+                    leading: getNumberDigitIcon(index + 1),
+                    title: Text("Standard ${index + 1}",
+                        style: const TextStyle(
+                          color: Colors.black,
+                        )),
+                    onTap: () {
+                      setState(() {
+                        stdTxt.text = "Standard ${index + 1}";
+                        selectedStd = Lookup(
+                            name: "Standard ${index + 1}",
+                            id: index + 1,
+                            logo: "");
+                      });
+                      Navigator.pop(context);
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

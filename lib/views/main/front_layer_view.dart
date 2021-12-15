@@ -44,7 +44,7 @@ class FrontLayer {
   Widget getGridItem(BuildContext context, TextbookDatum? textbookData,
       List<SubjectDatum>? subjectData, int index) {
     return GestureDetector(
-        onTap: () => itemClicked(textbookData, context),
+        onTap: () => itemClicked(textbookData, subjectData, context),
         child: Card(
           shadowColor: AppTheme.primaryColor,
           shape: RoundedRectangleBorder(
@@ -96,12 +96,19 @@ class FrontLayer {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          subjectData!
-                              .firstWhere((element) =>
-                                  element.id == textbookData.subjectId)
-                              .subjectName,
+                          subjectData
+                                  ?.firstWhere(
+                                      (element) =>
+                                          element.id == textbookData.subjectId,
+                                      orElse: () => SubjectDatum(
+                                          id: -1,
+                                          subjectName:
+                                              textbookData.chapterName))
+                                  .subjectName ??
+                              "",
                           textAlign: TextAlign.start,
-                          style: const TextStyle(color: Colors.white),
+                          style: const TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
@@ -111,13 +118,13 @@ class FrontLayer {
         ));
   }
 
-  void itemClicked(TextbookDatum? textbookData, BuildContext context) async {
+  void itemClicked(TextbookDatum? textbookData, List<SubjectDatum>? subjectData,
+      BuildContext context) async {
     Navigator.push(
         context,
         CupertinoPageRoute<dynamic>(
           builder: (_) => PDFViewerCachedFromUrl(
-            textbookData: textbookData!,
-          ),
+              textbookData: textbookData!, subjectData: subjectData!),
         ));
   }
 }

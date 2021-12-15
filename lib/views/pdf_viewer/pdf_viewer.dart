@@ -12,9 +12,11 @@ import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class PDFViewerCachedFromUrl extends StatefulWidget {
-  const PDFViewerCachedFromUrl({Key? key, required this.textbookData})
+  const PDFViewerCachedFromUrl(
+      {Key? key, required this.textbookData, required this.subjectData})
       : super(key: key);
   final TextbookDatum textbookData;
+  final List<SubjectDatum> subjectData;
 
   @override
   State<PDFViewerCachedFromUrl> createState() => _PDFViewerCachedFromUrlState();
@@ -29,7 +31,15 @@ class _PDFViewerCachedFromUrlState extends State<PDFViewerCachedFromUrl> {
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         appBar: AppBar(
-            title: Text(widget.textbookData.chapterName,
+            title: Text(
+                widget.subjectData
+                    .firstWhere(
+                        (element) =>
+                            element.id == widget.textbookData.subjectId,
+                        orElse: () => SubjectDatum(
+                            id: -1,
+                            subjectName: widget.textbookData.chapterName))
+                    .subjectName,
                 maxLines: 2,
                 style: const TextStyle(color: Colors.white, fontSize: 18)),
             actions: <Widget>[
