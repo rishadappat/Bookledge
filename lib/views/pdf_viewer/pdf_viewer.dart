@@ -243,7 +243,7 @@ class _PDFViewerCachedFromUrlState extends State<PDFViewerCachedFromUrl> {
           decoration: BoxDecoration(
             image: DecorationImage(
               image: imageProvider,
-              fit: BoxFit.cover,
+              fit: BoxFit.fitWidth,
             ),
           ),
         ),
