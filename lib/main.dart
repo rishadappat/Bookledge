@@ -1,8 +1,8 @@
 import 'package:bookledge/utility/app_theme.dart';
 import 'package:bookledge/utility/preferences.dart';
 import 'package:bookledge/views/home/home_page.dart';
+import 'package:bookledge/views/intro_screen/intro_screen.dart';
 import 'package:flutter/material.dart';
-import 'intro_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
