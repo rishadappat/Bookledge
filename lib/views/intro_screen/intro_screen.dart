@@ -38,7 +38,7 @@ class _IntroScreenState extends State<IntroScreen>
     return Scaffold(
       backgroundColor: AppTheme.bgColor,
       body: PageView(
-        // physics: const NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         controller: _pageController,
         children: <Widget>[
           getIntroScreen('lib/assets/language_anim.json', "Select Medium",
