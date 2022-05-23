@@ -12,6 +12,7 @@
 # IntelliJ related
 *.iml
 *.ipr
+*.jks
 *.iws
 .idea/
 
