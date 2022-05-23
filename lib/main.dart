@@ -9,14 +9,15 @@ void main() async {
   Preferences prefs = await Preferences.instance();
   bool mediumExists = await prefs.hasMedium();
   bool stdExists = await prefs.hasStd();
-  valueExists = mediumExists && stdExists;
-  runApp(const MyApp());
+  var valueExists = mediumExists && stdExists;
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MyApp(valueExists: valueExists));
 }
 
-bool valueExists = false;
-
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key, required this.valueExists}) : super(key: key);
+
+  final bool valueExists;
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -25,7 +26,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   _MyAppState();
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Widget getPrimaryScreen() {
-    if (valueExists) {
+    if (widget.valueExists) {
       return const HomePage();
     } else {
       return const IntroScreen();

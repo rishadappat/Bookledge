@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:bookledge/models/books_response_model/get_books_response.dart';
 import 'package:bookledge/utility/app_theme.dart';
 import 'package:bookledge/utility/constants.dart';
+import 'package:bookledge/utility/utility.dart';
 import 'package:bookledge/views/about/about.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,6 +26,7 @@ class PDFViewerCachedFromUrl extends StatefulWidget {
 class _PDFViewerCachedFromUrlState extends State<PDFViewerCachedFromUrl> {
   PDFViewController? pdfViewController;
   bool downloadComplete = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -233,17 +235,17 @@ class _PDFViewerCachedFromUrlState extends State<PDFViewerCachedFromUrl> {
     return Stack(children: <Widget>[
       CachedNetworkImage(
         imageBuilder: (context, imageProvider) => Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: imageProvider,
+              fit: BoxFit.fitWidth,
+            ),
+          ),
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
             child: Container(
               alignment: Alignment.center,
               child: getProgressIndicator(progress),
-            ),
-          ),
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: imageProvider,
-              fit: BoxFit.fitWidth,
             ),
           ),
         ),
@@ -257,9 +259,10 @@ class _PDFViewerCachedFromUrlState extends State<PDFViewerCachedFromUrl> {
 
   CircularPercentIndicator getProgressIndicator(double percent) {
     downloadComplete = percent == 100;
+    var progressWidth = Utility().deviceWidth() * 0.25;
     return CircularPercentIndicator(
-      radius: 120.0,
-      lineWidth: 13.0,
+      radius: progressWidth,
+      lineWidth: progressWidth * 0.2,
       animation: false,
       percent: percent / 100,
       center: Text(

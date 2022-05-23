@@ -69,19 +69,28 @@ class _HomePageState extends State<HomePage> {
             stream: _booksBloc.booksStream,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                switch (snapshot.data?.status) {
+                switch (snapshot.data!.status) {
                   case Status.LOADING:
                     break;
                   case Status.COMPLETED:
-                    return FrontLayer()
-                        .getContainer(snapshot.data!.data, context);
+                    return FrontLayer(
+                        context: context,
+                        response: snapshot.data!.data,
+                        status: snapshot.data!.status,
+                        clearSearch: true);
                   case Status.ERROR:
-                    return FrontLayer().getContainer(null, context);
-                  case null:
-                    return FrontLayer().getContainer(null, context);
+                    return FrontLayer(
+                        context: context,
+                        response: null,
+                        status: snapshot.data!.status,
+                        clearSearch: true);
                 }
               }
-              return FrontLayer().getContainer(null, context);
+              return FrontLayer(
+                  context: context,
+                  response: null,
+                  status: Status.ERROR,
+                  clearSearch: true);
             },
           ),
         ),

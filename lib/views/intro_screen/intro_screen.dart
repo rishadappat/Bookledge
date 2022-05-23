@@ -10,10 +10,10 @@ class IntroScreen extends StatefulWidget {
   const IntroScreen({Key? key}) : super(key: key);
 
   @override
-  _IntroScreenState createState() => _IntroScreenState();
+  IntroScreenState createState() => IntroScreenState();
 }
 
-class _IntroScreenState extends State<IntroScreen>
+class IntroScreenState extends State<IntroScreen>
     with TickerProviderStateMixin {
   final PageController _pageController = PageController();
   late final AnimationController _controller;

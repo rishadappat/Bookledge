@@ -2,6 +2,8 @@ import 'package:bookledge/models/lookup_model/lookup.dart';
 import 'package:bookledge/utility/app_theme.dart';
 import 'package:flutter/material.dart';
 
+import '../../utility/utility.dart';
+
 class LookupDialogs {
   void openMediumDialog(BuildContext rootContext,
       {required Function(Lookup) mediumSelected}) {
@@ -37,8 +39,7 @@ class LookupDialogs {
                 title: const Text('Malayalam',
                     style: TextStyle(color: Colors.black)),
                 onTap: () {
-                  mediumSelected(Lookup(
-                      name: 'Malayalam', id: 1, logo: "lib/assets/mal.png"));
+                  mediumSelected(Utility().getLookupForMedium(1));
                   Navigator.pop(rootContext);
                 },
               ),
@@ -50,8 +51,7 @@ class LookupDialogs {
                 title: const Text('English',
                     style: TextStyle(color: Colors.black)),
                 onTap: () {
-                  mediumSelected(Lookup(
-                      name: 'English', id: 2, logo: "lib/assets/en.png"));
+                  mediumSelected(Utility().getLookupForMedium(2));
                   Navigator.pop(rootContext);
                 },
               ),
@@ -63,8 +63,7 @@ class LookupDialogs {
                 title:
                     const Text('Tamil', style: TextStyle(color: Colors.black)),
                 onTap: () {
-                  mediumSelected(
-                      Lookup(name: 'Tamil', id: 3, logo: "lib/assets/tam.png"));
+                  mediumSelected(Utility().getLookupForMedium(3));
                   Navigator.pop(rootContext);
                 },
               ),
@@ -76,31 +75,13 @@ class LookupDialogs {
                 title: const Text('Kannada',
                     style: TextStyle(color: Colors.black)),
                 onTap: () {
-                  mediumSelected(Lookup(
-                      name: 'Kannada', id: 4, logo: "lib/assets/kan.png"));
+                  mediumSelected(Utility().getLookupForMedium(4));
                   Navigator.pop(rootContext);
                 },
               ),
             ],
           ));
         });
-  }
-
-  Widget getNumberDigitIcon(int number) {
-    return Container(
-      width: 30,
-      height: 30,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-          color: AppTheme.primaryColor),
-      margin: const EdgeInsets.only(top: 5),
-      child: Text(
-        "$number",
-        style: const TextStyle(
-            color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
-      ),
-    );
   }
 
   void openClassDialog(BuildContext rootContext,
@@ -137,7 +118,7 @@ class LookupDialogs {
                 itemCount: 12,
                 itemBuilder: (_, index) {
                   return ListTile(
-                    leading: getNumberDigitIcon(index + 1),
+                    leading: Utility().getNumberDigitIcon(index + 1),
                     title: Text("Standard ${index + 1}",
                         style: const TextStyle(
                           color: Colors.black,

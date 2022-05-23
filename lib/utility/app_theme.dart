@@ -29,8 +29,10 @@ import 'package:flutter/material.dart';
 // }
 
 class AppTheme {
-  static ThemeData theme =
-      ThemeData(primarySwatch: primaryColor, scaffoldBackgroundColor: bgColor);
+  static ThemeData theme = ThemeData(
+      primarySwatch: primaryColor,
+      scaffoldBackgroundColor: bgColor,
+      androidOverscrollIndicator: AndroidOverscrollIndicator.stretch);
 
   static MaterialColor primaryColor = MaterialColor(
     0xFFe63946,
@@ -51,6 +53,8 @@ class AppTheme {
   static Color accentColor = const Color(0xFFe63946);
 
   static Color bgColor = const Color(0xff1d3557);
+
+  static Color secondaryColor = const Color.fromARGB(255, 59, 88, 129);
 
   static Color buttonColor = const Color(0xff385077);
 }
