@@ -12,71 +12,73 @@ class AboutScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text('About'),
         ),
-        body: Container(
-          padding:
-              const EdgeInsets.only(top: 15, left: 12, right: 12, bottom: 10),
-          child: FutureBuilder(
-            future: getItems(),
-            builder: (context, AsyncSnapshot snapshot) {
-              var items = snapshot.data;
-              if (snapshot.hasData) {
-                return ListView.builder(
-                  itemCount: items.length,
-                  itemBuilder: (context, index) {
-                    final item = items[index];
-                    var radius = const BorderRadius.all(Radius.circular(0));
-                    if (index == 0 || items[index - 1] is HeadingItem) {
-                      radius = const BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10));
-                    } else if (index == items.length - 1 ||
-                        items[index - 1] is HeadingItem) {
-                      radius = const BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10));
-                    } else if (items[index - 1] is HeadingItem) {
-                      radius = const BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10));
-                    } else if (items[index + 1] is HeadingItem) {
-                      radius = const BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10));
-                    }
-                    return item is HeadingItem
-                        ? item.title == ""
-                            ? const SizedBox(
-                                height: 15,
-                              )
-                            : ListTile(
-                                title: item.buildTitle(context),
+        body: Column(children: [
+          Container(
+            padding:
+                const EdgeInsets.only(top: 15, left: 12, right: 12, bottom: 10),
+            child: FutureBuilder(
+              future: getItems(),
+              builder: (context, AsyncSnapshot snapshot) {
+                var items = snapshot.data;
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                    itemCount: items.length,
+                    itemBuilder: (context, index) {
+                      final item = items[index];
+                      var radius = const BorderRadius.all(Radius.circular(0));
+                      if (index == 0 || items[index - 1] is HeadingItem) {
+                        radius = const BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10));
+                      } else if (index == items.length - 1 ||
+                          items[index - 1] is HeadingItem) {
+                        radius = const BorderRadius.only(
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10));
+                      } else if (items[index - 1] is HeadingItem) {
+                        radius = const BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10));
+                      } else if (items[index + 1] is HeadingItem) {
+                        radius = const BorderRadius.only(
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10));
+                      }
+                      return item is HeadingItem
+                          ? item.title == ""
+                              ? const SizedBox(
+                                  height: 15,
+                                )
+                              : ListTile(
+                                  title: item.buildTitle(context),
+                                  dense: true,
+                                )
+                          : Card(
+                              margin: EdgeInsets.zero,
+                              shadowColor: AppTheme.secondaryColor,
+                              color: AppTheme.secondaryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: radius,
+                              ),
+                              elevation: 15,
+                              child: ListTile(
                                 dense: true,
-                              )
-                        : Card(
-                            margin: EdgeInsets.zero,
-                            shadowColor: AppTheme.secondaryColor,
-                            color: AppTheme.secondaryColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: radius,
-                            ),
-                            elevation: 15,
-                            child: ListTile(
-                              dense: true,
-                              title: item.buildTitle(context),
-                              subtitle: item.buildSubtitle(context),
-                              leading: SizedBox(
-                                  height: double.infinity,
-                                  child: item.buildIcon(context)),
-                            ),
-                          );
-                  },
-                );
-              } else {
-                return Container();
-              }
-            },
+                                title: item.buildTitle(context),
+                                subtitle: item.buildSubtitle(context),
+                                leading: SizedBox(
+                                    height: double.infinity,
+                                    child: item.buildIcon(context)),
+                              ),
+                            );
+                    },
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
           ),
-        ));
+        ]));
   }
 }
 
