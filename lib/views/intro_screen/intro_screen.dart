@@ -100,7 +100,7 @@ class IntroScreenState extends State<IntroScreen>
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25.0),
                 ),
-                primary: AppTheme.accentColor,
+                backgroundColor: AppTheme.accentColor,
                 textStyle:
                     const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             onPressed: () {
