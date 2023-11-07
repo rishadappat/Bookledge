@@ -1,16 +1,16 @@
-# bookledge
+# Bookledge
+### An application implemented using Flutter and Bloc pattern
 
-The BookLedge
+BookLedge is a Flutter application which will let you download, save and read all your SCERT textbooks from class 1 to 12 and in 4 different Indian languages. 
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+Dashboard          |  Global Data        |  Map Data
+:-----------------:|:-------------------:|:-------------------:
+<img src="dashboard.jpg" width="90%"></img>|<img src="global_data.jpg" width="100%"></img>|<img src="map.jpg" width="100%"></img>
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<br/><br/>
+### Play Store
+<a href="https://play.google.com/store/apps/details?id=com.appat.bookledge" target="_blank">
+<img src="google-play-badge.png" width="300" height="100" >
+</a>
+<br/><br/>
